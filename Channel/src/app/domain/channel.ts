@@ -1,6 +1,6 @@
-import {ChannelLink} from "./channelLink";
+import {SelfLink} from "./selfLink";
 
 export class Channel {
   name: string;
-  _links: ChannelLink;
+  _links: SelfLink;
 }

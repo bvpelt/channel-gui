@@ -1,5 +1,5 @@
 import {Link} from "./link";
 
-export class ChannelLink {
+export class SelfLink {
   self: Link;
 }

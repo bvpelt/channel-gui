@@ -1,9 +1,9 @@
 import {Channel} from "./channel";
-import {ChannelLink} from "./channelLink";
+import {SelfLink} from "./selfLink";
 
 export class ChannelResult {
   channel: Channel[];
-  _links: ChannelLink;
+  _links: SelfLink;
 
   constructor (o: ChannelResult) {
     this.channel = o.channel;
