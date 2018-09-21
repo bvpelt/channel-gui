@@ -5,7 +5,7 @@
 - Two way binding https://angular.io/guide/component-interaction#!#bidirectional-service
 
 # Data
-
+```
 {
   "channel" : [ {
     "name" : "Reizen",
@@ -98,3 +98,4 @@
     }
   }
 }
+```
