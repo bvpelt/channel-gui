@@ -3,6 +3,8 @@
 # Documentation
 - Angular https://angular.io/guide/quickstart
 - Two way binding https://angular.io/guide/component-interaction#!#bidirectional-service
+- CSS Positioning divs http://www.barelyfitz.com/screencast/html-training/css/positioning/
+
 
 # Data
 ```
