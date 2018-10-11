@@ -1,0 +1,14 @@
+.editor {
+  /* top | right | bottom | left */
+  margin: 2em 1em 1em 1em;
+}
+
+/*
+div.settings {
+  display:grid;
+  grid-template-columns: max-content auto;
+  grid-gap:5px;
+}
+div.settings label       { text-align:right; }
+div.settings label:after { content: ":"; }
+*/

@@ -1,0 +1,24 @@
+<div class="editor">
+  <!--
+
+  see https://angular.io/guide/forms
+  -->
+  <form>
+    <div class="form-group">
+      <label>channel name</label>
+      <input type="text" maxlength="24"
+             name="channelName"
+             [(ngModel)]="newChannel.name"
+             class="form-control" id="name"
+             placeholder="new channel name"
+             required
+             (focus)="clearErrorMessage()"
+             (keydown)="clearErrorMessage()"
+             >
+    </div>
+    <button type="submit" class="btn btn-success" (click)="onSubmit()">Create Channel</button>
+  </form>
+  <div class="message">
+    {{errorMessage}}
+  </div>
+</div>

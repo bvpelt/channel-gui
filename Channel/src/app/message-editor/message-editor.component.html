@@ -1,0 +1,24 @@
+<div class="editor">
+  <!--
+
+  see https://angular.io/guide/forms
+  -->
+  <form>
+    <div class="form-group">
+      <label>message</label>
+      <input type="text" maxlength="1024"
+             name="message"
+             [(ngModel)]="newMessage.message"
+             class="form-control" id="message"
+             placeholder="new message"
+             required
+             (focus)="clearErrorMessage()"
+             (keydown)="clearErrorMessage()"
+      >
+    </div>
+    <button type="submit" class="btn btn-success" (click)="onSubmit()">Create Message</button>
+  </form>
+  <div class="message">
+    {{errorMessage}}
+  </div>
+</div>
