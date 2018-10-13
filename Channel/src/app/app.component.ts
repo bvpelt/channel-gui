@@ -10,11 +10,5 @@ import {ChannelsComponent} from "./channels/channels.component";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-/*
-  onChannelChanged(elementRef) {
-    elementRef.ChannelsComponent.subscribe(event => {
-      console.log( 'APPComponent: ' + event);
-    });
-  }
-*/
+
 }

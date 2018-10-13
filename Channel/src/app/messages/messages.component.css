@@ -4,17 +4,28 @@ ul {
   padding: 0;
 }
 
+a {
+  color: #212529;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 li {
   padding: 0;
 }
 
 li a {
   display: block;
-
 }
 
 .remove-message {
   position: relative;
   float: right;
   top: -23px;
+}
+
+.mouseshape {
+  cursor: default;
 }
