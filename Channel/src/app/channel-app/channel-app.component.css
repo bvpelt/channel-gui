@@ -1,3 +1,24 @@
+
 h2 {
   font-size: 1.2em;
+  display: block;
+}
+
+.add-message {
+  position: relative;
+  float: right;
+  top: -23px;
+}
+
+.export-message {
+  position: relative;
+  float: right;
+  top: -23px;
+  /* top | right | bottom | left */
+  margin: 0px 10px 0px 0px;
+}
+
+.message-window {
+  overflow: auto;
+  max-height: 100vh;
 }

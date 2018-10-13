@@ -3,6 +3,7 @@
     <li class="col-md-12" *ngFor="let message of messages"  >
       <a href="#" >{{message.dateTime}}<br/>
         {{message.message}}</a>
+      <span (click)="removeMessage(message)" class="remove-message"><i  class="fas fa-trash-alt"></i></span>
       <hr/>
     </li>
   </ul>

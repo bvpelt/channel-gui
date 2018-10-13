@@ -12,3 +12,9 @@ li a {
   display: block;
 
 }
+
+.remove-message {
+  position: relative;
+  float: right;
+  top: -23px;
+}

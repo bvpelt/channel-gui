@@ -2,3 +2,12 @@
   /* top | right | bottom | left */
   margin: 2em 1em 1em 1em;
 }
+
+.message {
+  color: red;
+}
+
+.btn {
+  /* top | right | bottom | left */
+  margin: 1em 1em 1em 0em;
+}

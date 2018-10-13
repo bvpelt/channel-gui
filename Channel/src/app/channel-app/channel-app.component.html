@@ -6,10 +6,18 @@
     <div>
       <h2>
         Messages for {{ title }}: {{ getChannelName() }}
+        <div *ngIf="getChannelName()">
+          <!--
+          <span class="add-message"><a href="/addMessage"><i class="fas fa-plus-square"></i></a></span>
+          -->
+          <span class="add-message"><a routerLink="/addMessage"><i class="fas fa-plus-square"></i></a></span>
+
+          <span (click)="exportMessage()" class="export-message"><i class="fas fa-file-export"></i></span>
+        </div>
       </h2>
     </div>
 
-    <div>
+    <div class="message-window">
       <app-messages [channel]="selectedChannel"></app-messages>
     </div>
 

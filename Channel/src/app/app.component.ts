@@ -1,7 +1,8 @@
 import {Component, Output} from '@angular/core';
+/*
 import {Channel} from "./domain/channel";
 import {ChannelsComponent} from "./channels/channels.component";
-
+ */
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,11 @@ import {ChannelsComponent} from "./channels/channels.component";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+/*
   onChannelChanged(elementRef) {
     elementRef.ChannelsComponent.subscribe(event => {
       console.log( 'APPComponent: ' + event);
     });
   }
+*/
 }

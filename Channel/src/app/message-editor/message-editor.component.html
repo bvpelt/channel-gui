@@ -5,9 +5,9 @@
   -->
   <form>
     <div class="form-group">
-      <label>message</label>
+      <label>Message</label>
       <input type="text" maxlength="1024"
-             name="message"
+             name="Message"
              [(ngModel)]="newMessage.message"
              class="form-control" id="message"
              placeholder="new message"
@@ -16,7 +16,8 @@
              (keydown)="clearErrorMessage()"
       >
     </div>
-    <button type="submit" class="btn btn-success" (click)="onSubmit()">Create Message</button>
+    <button type="submit" class="btn btn-default" (click)="onSubmit()">Create Message</button>
+    <button (click)="goBack()" class="btn btn-primary">go back</button>
   </form>
   <div class="message">
     {{errorMessage}}

@@ -1,4 +1,7 @@
 import {Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import {Channel} from "../domain/channel";
 import {ChannelsService} from "../services/channels.service";
 import {Observable} from "rxjs";
@@ -17,11 +20,17 @@ export class ChannelEditorComponent implements OnInit {
   private submitted: boolean = false;
   public errorMessage: string;
 
-  constructor(private channelsService: ChannelsService) {
+  constructor(private channelsService: ChannelsService,
+              private route: ActivatedRoute,
+              private location: Location) {
     this.errorMessage = '';
   }
 
   ngOnInit() {
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   clearErrorMessage() {

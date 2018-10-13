@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Channel} from "../domain/channel";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+
+import {Channel} from "../domain/channel";
 import {ChannelchangedService} from "../services/channelchanged.service";
 
 @Component({

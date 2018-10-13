@@ -1,8 +1,11 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import { Location } from '@angular/common';
+import {Observable} from "rxjs";
+
 import {Channel} from "../domain/channel";
 import {Message} from "../domain/message";
 import {MessageResult} from "../domain/messageResult";
-import {Observable} from "rxjs";
 import {ChannelResult} from "../domain/channelResult";
 import {ChannelsService} from "../services/channels.service";
 import {MessagesService} from "../services/messages.service";
@@ -23,13 +26,19 @@ export class MessageEditorComponent implements OnInit {
 
   selectedChannel: Channel = null;
 
-  constructor(private messagesService: MessagesService) {
+  constructor(private messagesService: MessagesService,
+              private route: ActivatedRoute,
+              private location: Location) {
     this.channelChangedService = ChannelchangedService.getChannelService();
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   ngOnInit() {
     this.selectedChannel = this.channelChangedService.getSelectedChannel();
-    console.log("MESSAGE-EDITOR selected Channel: ", (this.selectedChannel == null? '': this.selectedChannel.name));
+    console.log("MESSAGE-EDITOR ngInit selected Channel: ", (this.selectedChannel == null? '': this.selectedChannel.name));
   }
 
   clearErrorMessage() {
