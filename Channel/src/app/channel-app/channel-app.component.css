@@ -20,5 +20,6 @@ h2 {
 
 .message-window {
   overflow: auto;
-  max-height: 100vh;
+  max-height: 90vh;
 }
+

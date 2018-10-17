@@ -25,13 +25,27 @@ export class ChannelsService {
   private channelUrl = 'http://localhost:8080/channels';
 
   private channelResult: ChannelResult;
+  private headers: HttpHeaders = null;
 
   constructor(private http: HttpClient) {
+    this.headers = this.makeHeaders();
+  }
 
+  makeHeaders(): HttpHeaders {
+    let headers: HttpHeaders = new HttpHeaders();
+    let username = "admin";
+    let password = "geheim";
+    headers.append("Authorization", "Basic " + btoa(username + ":" + password));
+    headers.append("Content-Type", "application/json; charset=utf-8");
+    headers.append("Mydata", "debug");
+
+    return headers;
   }
 
   getChannels(): Observable<ChannelResult > {
-    return this.http.get<ChannelResult>(this.channelUrl, httpOptions)
+    //return this.http.get<ChannelResult>(this.channelUrl, httpOptions)
+
+    return this.http.get<ChannelResult>(this.channelUrl, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(ChannelResult => this.logRes(ChannelResult),
           catchError(this.handleError('getChannelResult', ChannelResult))
@@ -40,7 +54,8 @@ export class ChannelsService {
 
   postChannels(newChannel: Channel): Observable<ChannelResult > {
     console.log('postChannels: ', JSON.stringify(newChannel));
-    return this.http.post<ChannelResult>(this.channelUrl, newChannel, httpOptions)
+    //return this.http.post<ChannelResult>(this.channelUrl, newChannel, httpOptions)
+    return this.http.post<ChannelResult>(this.channelUrl, newChannel, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(ChannelResult => this.logRes(ChannelResult),
           catchError(this.handleError('postChannelResult', ChannelResult))
@@ -53,7 +68,8 @@ export class ChannelsService {
       console.error('Channel is invalid: ', JSON.stringify(channel));
       return null;
     } else {
-    return this.http.delete<ChannelResult>(this.channelUrl + '/' + channel.name, httpOptions);
+      //return this.http.delete<ChannelResult>(this.channelUrl + '/' + channel.name, httpOptions);
+      return this.http.delete<ChannelResult>(this.channelUrl + '/' + channel.name, { withCredentials: true, headers: this.headers });
     }
   }
 

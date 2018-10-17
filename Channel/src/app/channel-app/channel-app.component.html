@@ -1,8 +1,8 @@
 <div class="row">
-  <div id="channel-sidebar" class="col-md-1">
+  <div id="channel-sidebar" class="col-md-2">
     <app-channels (selectedChannelEvent)="onChannelChanged($event)"></app-channels>
   </div>
-  <div class="col-md-11">
+  <div class="col-md-10">
     <div>
       <h2>
         Messages for {{ title }}: {{ getChannelName() }}
