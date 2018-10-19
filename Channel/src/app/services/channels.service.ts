@@ -9,14 +9,6 @@ import { Channel } from './channel';
 import {ChannelResult} from "../domain/channelResult";
 import {Channel} from "../domain/channel";
 
-
-const httpOptions = {
-  headers: new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8'
-      }
-    )
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,13 +20,13 @@ export class ChannelsService {
   private headers: HttpHeaders = null;
 
   constructor(private http: HttpClient) {
-    this.headers = this.makeHeaders();
+    //this.headers = this.makeHeaders();
   }
 
-  makeHeaders(): HttpHeaders {
+  makeHeaders(username: string, password: string): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();
-    let username = "admin";
-    let password = "geheim";
+    //let username = "admin";
+    //let password = "geheim";
     headers.append("Authorization", "Basic " + btoa(username + ":" + password));
     headers.append("Content-Type", "application/json; charset=utf-8");
     headers.append("Mydata", "debug");
@@ -42,9 +34,8 @@ export class ChannelsService {
     return headers;
   }
 
-  getChannels(): Observable<ChannelResult > {
-    //return this.http.get<ChannelResult>(this.channelUrl, httpOptions)
-
+  getChannels(username: string, password: string): Observable<ChannelResult > {
+    this.makeHeaders(username, password);
     return this.http.get<ChannelResult>(this.channelUrl, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(ChannelResult => this.logRes(ChannelResult),
@@ -52,9 +43,9 @@ export class ChannelsService {
       ))
   }
 
-  postChannels(newChannel: Channel): Observable<ChannelResult > {
+  postChannels(newChannel: Channel, username: string, password: string): Observable<ChannelResult > {
+    this.makeHeaders(username, password);
     console.log('postChannels: ', JSON.stringify(newChannel));
-    //return this.http.post<ChannelResult>(this.channelUrl, newChannel, httpOptions)
     return this.http.post<ChannelResult>(this.channelUrl, newChannel, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(ChannelResult => this.logRes(ChannelResult),
@@ -62,13 +53,13 @@ export class ChannelsService {
         ))
   }
 
-  removeChannel(channel: Channel): Observable<ChannelResult> {
+  removeChannel(channel: Channel, username: string, password: string): Observable<ChannelResult> {
     console.log('removeChannel: ', JSON.stringify(channel));
+    this.makeHeaders(username, password);
     if (channel == null || channel.name == null || channel.name.length == 0) {
       console.error('Channel is invalid: ', JSON.stringify(channel));
       return null;
     } else {
-      //return this.http.delete<ChannelResult>(this.channelUrl + '/' + channel.name, httpOptions);
       return this.http.delete<ChannelResult>(this.channelUrl + '/' + channel.name, { withCredentials: true, headers: this.headers });
     }
   }

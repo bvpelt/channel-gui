@@ -6,6 +6,7 @@ import {Channel} from "../domain/channel";
 import {Message} from "../domain/message";
 import {MessageResult} from "../domain/messageResult";
 import {ChannelchangedService} from "../services/channelchanged.service";
+import {GlobalDataService} from "../services/global-data.service";
 
 @Component({
   selector: 'app-messages',
@@ -14,10 +15,15 @@ import {ChannelchangedService} from "../services/channelchanged.service";
 })
 export class MessagesComponent implements OnInit {
 
-  private channelChangedService: ChannelchangedService;
   private _messageResult: MessageResult;
   private _messages: Message[];
   private _channel: Channel = null;
+  private globalDataService: GlobalDataService;
+
+
+  constructor(private messagesService: MessagesService) {
+    this.globalDataService = GlobalDataService.getGlobalDataService();
+  }
 
   @Input()
   set channel(channel: Channel) {
@@ -44,10 +50,6 @@ export class MessagesComponent implements OnInit {
 
   get channel(): Channel {
     return this._channel;
-  }
-
-  constructor(private messagesService: MessagesService) {
-    this.channelChangedService = ChannelchangedService.getChannelService();
   }
 
   get messages(): Message[] {
@@ -78,8 +80,10 @@ export class MessagesComponent implements OnInit {
   }
 
   getMessages(channel: string): Observable<MessageResult> {
+    let username: string = this.globalDataService.username;
+    let password: string = this.globalDataService.password;
     return this.messagesService
-      .getMessages(channel);
+      .getMessages(channel, username, password);
   }
 
   logRes(prefix: string, messageResult: MessageResult) {

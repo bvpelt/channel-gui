@@ -3,15 +3,17 @@
 
   see https://angular.io/guide/forms
   -->
-  <form>
+  <form #channeleditor="ngForm">
     <div class="form-group">
-      <label>Channel name</label>
+      <label for="name01">Channel name</label>
       <input type="text" maxlength="24"
-             name="Channel name"
-             [(ngModel)]="newChannel.name"
-             class="form-control" id="name"
-             placeholder="new channel name"
+             class="form-control" id="name01"
              required
+             [(ngModel)]="newChannel.name"
+             name="name01"
+             #name01="ngModel"
+             placeholder="new channel name"
+
              (focus)="clearErrorMessage()"
              (keydown)="clearErrorMessage()"
              >
@@ -19,7 +21,11 @@
     <button type="submit" class="btn btn-default" (click)="onSubmit()">Create Channel</button>
     <button (click)="goBack()" class="btn btn-primary">go back</button>
   </form>
-  <div class="message">
+  <div *ngIf="(errorMessage != null) && (errorMessage.length > 0)" class="message">
     {{errorMessage}}
+  </div>
+  <div *ngIf="(errorMessage == null) || (errorMessage.length == 0)" [hidden]="name01.valid || name01.pristine"
+       class="alert alert-danger">
+    Channel name is required
   </div>
 </div>

@@ -1,3 +1,9 @@
+<nav class="container-fluid">
+  <a routerLink="/app">Channels</a>
+  <a routerLink="/addChannel">Add Channel</a>
+  <a routerLink="/addMessage">Add Message</a>
+  <a routerLink="/addAccount">Add Account</a>
+</nav>
 <div class="row">
   <div id="channel-sidebar" class="col-md-2">
     <app-channels (selectedChannelEvent)="onChannelChanged($event)"></app-channels>

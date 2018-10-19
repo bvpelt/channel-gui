@@ -1,11 +1,12 @@
 import {Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
 
 import {Channel} from "../domain/channel";
 import {ChannelsService} from "../services/channels.service";
 import {Observable} from "rxjs";
 import {ChannelResult} from "../domain/channelResult";
+import {GlobalDataService} from "../services/global-data.service";
 
 @Component({
   selector: 'app-channel-editor',
@@ -19,11 +20,17 @@ export class ChannelEditorComponent implements OnInit {
   private savedChannel: Channel;
   private submitted: boolean = false;
   public errorMessage: string;
+  private globalDataService: GlobalDataService;
 
   constructor(private channelsService: ChannelsService,
               private route: ActivatedRoute,
+              private router: Router,
               private location: Location) {
     this.errorMessage = '';
+    this.globalDataService = GlobalDataService.getGlobalDataService();
+    if (this.globalDataService.loggedIn == false) {
+      this.moveTo("/login");
+    }
   }
 
   ngOnInit() {
@@ -33,13 +40,18 @@ export class ChannelEditorComponent implements OnInit {
     this.location.back();
   }
 
+  moveTo(location: string) {
+    this.router.navigate([location]);
+  }
+
   clearErrorMessage() {
     this.errorMessage = '';
   }
 
   onSubmit() {
-    this.addChannel();
     this.submitted = true;
+    this.addChannel();
+    this.submitted = false;
   }
 
   addChannel() {
@@ -69,8 +81,10 @@ export class ChannelEditorComponent implements OnInit {
   }
 
   postChannel(channel: Channel) : Observable<ChannelResult> {
+    var username: string = this.globalDataService.username;
+    var password: string = this.globalDataService.password;
     return this.channelsService
-      .postChannels(this.newChannel);
+      .postChannels(this.newChannel, username, password);
   }
 
 }

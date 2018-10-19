@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
 import {Observable} from "rxjs";
 
@@ -10,6 +10,7 @@ import {ChannelResult} from "../domain/channelResult";
 import {ChannelsService} from "../services/channels.service";
 import {MessagesService} from "../services/messages.service";
 import {ChannelchangedService} from "../services/channelchanged.service";
+import {GlobalDataService} from "../services/global-data.service";
 
 @Component({
   selector: 'app-message-editor',
@@ -20,24 +21,35 @@ export class MessageEditorComponent implements OnInit {
   public  newMessage: Message = new Message('', '',0,null);
   private messageResult: MessageResult;
   private savedMessage: Message;
-  private channelChangedService: ChannelchangedService;
+  //private channelChangedService: ChannelchangedService;
   private submitted: boolean = false;
   public errorMessage: string;
+  private globalDataService: GlobalDataService = null;
+  private appLocation: string = '/app';
 
   selectedChannel: Channel = null;
 
   constructor(private messagesService: MessagesService,
               private route: ActivatedRoute,
+              private router: Router,
               private location: Location) {
-    this.channelChangedService = ChannelchangedService.getChannelService();
+    // this.channelChangedService = ChannelchangedService.getChannelService();
+    this.globalDataService = GlobalDataService.getGlobalDataService();
+    if (this.globalDataService.loggedIn == false) {
+      this.moveTo("/login");
+    }
   }
 
   goBack(): void {
     this.location.back();
   }
 
+  moveTo(location: string) {
+    this.router.navigate([location]);
+  }
+
   ngOnInit() {
-    this.selectedChannel = this.channelChangedService.getSelectedChannel();
+    this.selectedChannel = this.globalDataService.selectedChannel; //this.channelChangedService.getSelectedChannel();
     console.log("MESSAGE-EDITOR ngInit selected Channel: ", (this.selectedChannel == null? '': this.selectedChannel.name));
   }
 
@@ -57,7 +69,9 @@ export class MessageEditorComponent implements OnInit {
       console.log('A message is required');
       this.errorMessage = 'A message is required';
     } else {
-      this.postMessage(this.newMessage, this.selectedChannel.name).subscribe(
+      var username = this.globalDataService.username;
+      var password = this.globalDataService.password;
+      this.postMessage(this.newMessage, this.selectedChannel.name, username, password).subscribe(
         (messageResult) => {
           this.messageResult = messageResult;
         },
@@ -69,6 +83,7 @@ export class MessageEditorComponent implements OnInit {
             if (this.messageResult.message) {
               this.savedMessage = this.messageResult.message[0];
               console.log("Saved errorMessage: ", this.savedMessage);
+              this.moveTo(this.appLocation);
             }
           }
           this.newMessage = new Message('', '', 0, null);
@@ -77,9 +92,9 @@ export class MessageEditorComponent implements OnInit {
     }
   }
 
-  postMessage(message: Message, channel: string) : Observable<MessageResult> {
+  postMessage(message: Message, channel: string, username, password) : Observable<MessageResult> {
     return this.messagesService
-      .postMessages(this.newMessage, channel);
+      .postMessages(this.newMessage, channel, username, password);
   }
 
 }

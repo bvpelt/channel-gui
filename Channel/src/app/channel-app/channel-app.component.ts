@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import {Observable} from "rxjs";
+import * as FileSaver from "file-saver";
 
 import {Channel} from "../domain/channel";
-import {ChannelchangedService} from "../services/channelchanged.service";
-import * as FileSaver from "file-saver";
 import {MessagesService} from "../services/messages.service";
-import {Observable} from "rxjs";
 import {MessageResult} from "../domain/messageResult";
 import {Message} from "../domain/message";
-import {forEach} from "@angular/router/src/utils/collection";
+import {GlobalDataService} from "../services/global-data.service";
 
 @Component({
   selector: 'app-channel-app',
@@ -18,18 +17,18 @@ import {forEach} from "@angular/router/src/utils/collection";
 })
 export class ChannelAppComponent implements OnInit {
   public title = 'Channel';
-  private channelChangedService: ChannelchangedService;
 
   public selectedChannel: Channel = null;
   private _messageResult: MessageResult;
   private _messages: Message[];
 
+  private globalDataService: GlobalDataService;
 
   constructor(private route: ActivatedRoute,
               private location: Location,
               private messagesService: MessagesService)
   {
-    this.channelChangedService = ChannelchangedService.getChannelService();
+    this.globalDataService = GlobalDataService.getGlobalDataService();
   }
 
   ngOnInit() {
@@ -45,13 +44,15 @@ export class ChannelAppComponent implements OnInit {
 
   public onChannelChanged(channel: Channel) {
     this.selectedChannel = channel;
-    this.channelChangedService.setSelectedChannel(channel);
+    this.globalDataService.selectedChannel = channel;
     console.log('APP - Selected channel: ' + channel.name);
   }
 
   getMessages(channel: string): Observable<MessageResult> {
+    var username = this.globalDataService.username;
+    var password = this.globalDataService.password;
     return this.messagesService
-      .getMessages(channel);
+      .getMessages(channel, username, password);
   }
 
 

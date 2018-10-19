@@ -7,14 +7,14 @@ import {Channel} from "../domain/channel";
 import {ChannelResult} from "../domain/channelResult";
 import {Message} from "../domain/message";
 
-
-
+/*
 const httpOptions = {
   headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8'
     }
   )
 };
+*/
 
 @Injectable({
   providedIn: 'root'
@@ -28,14 +28,12 @@ export class MessagesService {
   private headers: HttpHeaders = null;
 
   constructor(private http: HttpClient) {
-    this.headers = this.makeHeaders();
+
   }
 
-
-  makeHeaders(): HttpHeaders {
+  makeHeaders(username: string, password: string): HttpHeaders {
     let headers: HttpHeaders = new HttpHeaders();
-    let username = "admin";
-    let password = "geheim";
+
     let auth =btoa(username + ":" + password);
     console.log('Authorization: Basic ' + auth);
     headers.append("Authorization", "Basic " + btoa(username + ":" + password));
@@ -44,10 +42,11 @@ export class MessagesService {
     return headers;
   }
 
-  getMessages(channel: string): Observable<MessageResult > {
+  getMessages(channel: string, username, password): Observable<MessageResult > {
     var url: string = this.messageUrl + '/channel/' + channel;
     this.log("Get messages using url: " + url);
-    //return this.http.get<MessageResult>(url, httpOptions)
+
+    this.makeHeaders(username, password);
     return this.http.get<MessageResult>(url, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(MessageResult => this.logRes(MessageResult),
@@ -55,10 +54,11 @@ export class MessagesService {
         ))
   }
 
-  postMessages(newMessage: Message, channel: string): Observable<MessageResult > {
+  postMessages(newMessage: Message, channel: string, username: string, password: string): Observable<MessageResult > {
     var url: string = this.messageUrl + '/channel/' + channel;
-    console.log('postMessages: ', JSON.stringify(newMessage));
-    //return this.http.post<MessageResult>(url, newMessage, httpOptions)
+    this.log('postMessages: ' + JSON.stringify(newMessage));
+
+    this.makeHeaders(username, password);
     return this.http.post<MessageResult>(url, newMessage, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(MessageResult => this.logRes(MessageResult),

@@ -6,6 +6,7 @@ import {ChannelsService} from '../services/channels.service';
 import {ChannelResult} from "../domain/channelResult";
 import {CHANNELRESULT} from "../mock-channels";
 import {ChannelchangedService} from "../services/channelchanged.service";
+import {GlobalDataService} from "../services/global-data.service";
 
 @Component({
   selector: 'app-channels',
@@ -19,9 +20,12 @@ export class ChannelsComponent implements OnInit {
 
   private selectedChannel : Channel;
   private startRemove: boolean = false;
+  private globalDataService: GlobalDataService;
 
   constructor(private channelsService: ChannelsService)
-  { }
+  {
+    this.globalDataService = GlobalDataService.getGlobalDataService();
+  }
 
   @Output('selectedChannelEvent')
   selectedChannelEvent = new EventEmitter<Channel>();
@@ -82,13 +86,17 @@ export class ChannelsComponent implements OnInit {
   }
 
   public getChannels() : Observable<ChannelResult> {
+    let username: string = this.globalDataService.username;
+    let password: string = this.globalDataService.password;
     return this.channelsService
-      .getChannels();
+      .getChannels(username, password);
   }
 
   public deleteChannels(channel: Channel) : Observable<ChannelResult> {
+    let username: string = this.globalDataService.username;
+    let password: string = this.globalDataService.password;
     return this.channelsService
-      .removeChannel(channel);
+      .removeChannel(channel, username, password);
   }
 
   logRes(prefix: string, channelResult: ChannelResult) {

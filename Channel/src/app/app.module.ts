@@ -13,6 +13,8 @@ import { MessageEditorComponent } from './message-editor/message-editor.componen
 import { ChannelEditorComponent } from './channel-editor/channel-editor.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { ChannelAppComponent } from './channel-app/channel-app.component';
+import { LoginComponent } from './login/login.component';
+import { AccountEditorComponent } from './account-editor/account-editor.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { ChannelAppComponent } from './channel-app/channel-app.component';
     MessagesComponent,
     MessageEditorComponent,
     ChannelEditorComponent,
-    ChannelAppComponent
+    ChannelAppComponent,
+    LoginComponent,
+    AccountEditorComponent
   ],
   imports: [
     NgbModule.forRoot(),

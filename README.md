@@ -2,6 +2,7 @@
 
 # Documentation
 - Angular https://angular.io/guide/quickstart
+- Angular forms https://angular.io/guide/forms
 - Two way binding https://angular.io/guide/component-interaction#!#bidirectional-service
 - CSS Positioning divs http://www.barelyfitz.com/screencast/html-training/css/positioning/
 - Styling with bootstrap https://getbootstrap.com/docs/3.3/css/

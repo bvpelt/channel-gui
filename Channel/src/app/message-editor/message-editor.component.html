@@ -3,15 +3,16 @@
 
   see https://angular.io/guide/forms
   -->
-  <form>
+  <form #messageEditor="ngForm">
     <div class="form-group">
-      <label>Message</label>
+      <label for="message01">Message</label>
       <input type="text" maxlength="1024"
-             name="Message"
-             [(ngModel)]="newMessage.message"
-             class="form-control" id="message"
-             placeholder="new message"
+             class="form-control" id="message01"
              required
+             [(ngModel)]="newMessage.message"
+             name="message01"
+             #message01="ngModel"
+             placeholder="new message"
              (focus)="clearErrorMessage()"
              (keydown)="clearErrorMessage()"
       >
@@ -19,7 +20,11 @@
     <button type="submit" class="btn btn-default" (click)="onSubmit()">Create Message</button>
     <button (click)="goBack()" class="btn btn-primary">go back</button>
   </form>
-  <div class="message">
+  <div *ngIf="(errorMessage != null) && (errorMessage.length > 0)"  class="message">
     {{errorMessage}}
+  </div>
+  <div *ngIf="(errorMessage == null) || (errorMessage.length == 0)" [hidden]="message01.valid || message01.pristine"
+       class="alert alert-danger">
+    Message is required
   </div>
 </div>
