@@ -1,0 +1,50 @@
+<div class="login">
+  <!--
+
+  see https://angular.io/guide/forms
+  -->
+  <h2>Login</h2>
+  <form #loginForm="ngForm">
+
+    <div class="form-group">
+      <label for="username01">User name</label>
+      <input type="text" maxlength="24"
+             class="form-control" id="username01"
+             required
+             [(ngModel)]="username"
+             name="username01"
+             #username01="ngModel"
+             placeholder="user name"
+             (focus)="clearErrorMessage()"
+             (keydown)="clearErrorMessage()"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="password01">Password</label>
+      <input type="password" maxlength="24"
+             class="form-control" id="password01"
+             required
+             [(ngModel)]="password"
+             name="password01"
+             #password01="ngModel"
+             placeholder="password"
+             (focus)="clearErrorMessage()"
+             (keydown)="clearErrorMessage()"
+      >
+    </div>
+
+    <button type="submit" class="btn btn-default" (click)="onSubmit()">Login</button>
+  </form>
+  <div *ngIf="(errorMessage != null) && (errorMessage.length > 0)" class="message">
+    {{errorMessage}}
+  </div>
+  <div [hidden]="username01.valid || username01.pristine"
+       class="alert alert-danger">
+    Username is required
+  </div>
+  <div [hidden]="password01.valid || password01.pristine"
+       class="alert alert-danger">
+    Password is required
+  </div>
+</div>

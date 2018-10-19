@@ -1,0 +1,47 @@
+<div class="accounts">
+  <!--
+
+  see https://angular.io/guide/forms
+  -->
+  <form #accountEditor="ngForm">
+    <div class="form-group">
+      <label for="username01">User name</label>
+      <input type="text" maxlength="24"
+             class="form-control" id="username01"
+             required
+             [(ngModel)]="newAccount.username"
+             name="username01"
+             #username01="ngModel"
+             placeholder="user name"
+             (focus)="clearErrorMessage()"
+             (keydown)="clearErrorMessage()"
+      >
+    </div>
+    <div class="form-group">
+      <label for="password01">Password</label>
+      <input type="password" maxlength="40"
+             class="form-control" id="password01"
+             required
+             [(ngModel)]="newAccount.password"
+             name="password01"
+             #password01="ngModel"
+             placeholder="new message"
+             (focus)="clearErrorMessage()"
+             (keydown)="clearErrorMessage()"
+      >
+    </div>
+    <button type="submit" class="btn btn-default" (click)="onSubmit()">Create Account</button>
+    <button (click)="goBack()" class="btn btn-primary">go back</button>
+  </form>
+  <div *ngIf="(errorMessage != null) && (errorMessage.length > 0)"  class="message">
+    {{errorMessage}}
+  </div>
+  <div *ngIf="(errorMessage == null) || (errorMessage.length == 0)" [hidden]="username01.valid || username01.pristine"
+       class="alert alert-danger">
+    Username is required
+  </div>
+  <div *ngIf="(errorMessage == null) || (errorMessage.length == 0)" [hidden]="password01.valid || password01.pristine"
+       class="alert alert-danger">
+    Password is required
+  </div>
+</div>
