@@ -9,6 +9,8 @@
 - Adding bootstrap to project https://stackoverflow.com/questions/38534276/how-to-use-bootstrap-4-in-angular-2
 - Additional info bootstrap an angular https://josuevalrob.com/article/angular6-bootstrap4
 - Awsome font https://fontawesome.com/icons/plus-square?style=solid glyphicons is no longer part of bootstrap 4
+- [Authentication and Angular](http://www.dotnetmob.com/angular-5-tutorial/angular-5-role-based-authorization-with-web-api/)
+- [Authentication example](https://blog.realworldfullstack.io/real-world-angular-part-6-3rs-rules-roles-routes-9e7de5a3ea8e)
 
 ```
 npm i bootstrap --save

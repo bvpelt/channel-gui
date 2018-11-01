@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import {Observable} from "rxjs";
 import * as FileSaver from "file-saver";
 
+
 import {Channel} from "../domain/channel";
 import {MessagesService} from "../services/messages.service";
 import {MessageResult} from "../domain/messageResult";
@@ -79,12 +80,11 @@ export class ChannelAppComponent implements OnInit {
           var data: string = JSON.stringify(this._messages);
           console.log('getMessages - completed data: ', data);
           var blob = new Blob([data], {type: content_type});
+
           FileSaver.saveAs(blob, x_filename);
           console.log("exportMessage - ready");
         }
       );
     }
-
-
   }
 }

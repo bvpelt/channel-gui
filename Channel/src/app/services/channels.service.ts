@@ -8,11 +8,12 @@ import { Channel } from './channel';
 */
 import {ChannelResult} from "../domain/channelResult";
 import {Channel} from "../domain/channel";
+import {BaseService} from "./BaseService";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelsService {
+export class ChannelsService extends BaseService {
 
   private channelUrl = 'http://localhost:8080/channels';
 
@@ -20,22 +21,11 @@ export class ChannelsService {
   private headers: HttpHeaders = null;
 
   constructor(private http: HttpClient) {
-    //this.headers = this.makeHeaders();
+    super();
   }
 
-  makeHeaders(username: string, password: string): HttpHeaders {
-    let headers: HttpHeaders = new HttpHeaders();
-    //let username = "admin";
-    //let password = "geheim";
-    headers.append("Authorization", "Basic " + btoa(username + ":" + password));
-    headers.append("Content-Type", "application/json; charset=utf-8");
-    headers.append("Mydata", "debug");
-
-    return headers;
-  }
-
-  getChannels(username: string, password: string): Observable<ChannelResult > {
-    this.makeHeaders(username, password);
+  public getChannels(username: string, password: string): Observable<ChannelResult > {
+    this.headers = this.makeHeaders(username, password);
     return this.http.get<ChannelResult>(this.channelUrl, { withCredentials: true, headers: this.headers })
       .pipe(
         tap(ChannelResult => this.logRes(ChannelResult),
@@ -43,8 +33,8 @@ export class ChannelsService {
       ))
   }
 
-  postChannels(newChannel: Channel, username: string, password: string): Observable<ChannelResult > {
-    this.makeHeaders(username, password);
+  public postChannels(newChannel: Channel, username: string, password: string): Observable<ChannelResult > {
+    this.headers = this.makeHeaders(username, password);
     console.log('postChannels: ', JSON.stringify(newChannel));
     return this.http.post<ChannelResult>(this.channelUrl, newChannel, { withCredentials: true, headers: this.headers })
       .pipe(
@@ -53,9 +43,9 @@ export class ChannelsService {
         ))
   }
 
-  removeChannel(channel: Channel, username: string, password: string): Observable<ChannelResult> {
+  public removeChannel(channel: Channel, username: string, password: string): Observable<ChannelResult> {
     console.log('removeChannel: ', JSON.stringify(channel));
-    this.makeHeaders(username, password);
+    this.headers = this.makeHeaders(username, password);
     if (channel == null || channel.name == null || channel.name.length == 0) {
       console.error('Channel is invalid: ', JSON.stringify(channel));
       return null;
@@ -64,31 +54,4 @@ export class ChannelsService {
     }
   }
 
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
-  log(message: string) {
-    console.log(message);
-  }
-
-  logRes(channelResult: ChannelResult) {
-    console.log("httpget result: " + JSON.stringify(channelResult));
-  }
 }

@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {ActivatedRoute, Router} from '@angular/router';
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {AccountsService} from "../services/accounts.service";
 import {Account} from "../domain/account";
 import {Observable} from "rxjs";
-import {AccountResult} from "../domain/accountResult";
 import {GlobalDataService} from "../services/global-data.service";
 
 
@@ -16,11 +15,11 @@ import {GlobalDataService} from "../services/global-data.service";
 })
 export class LoginComponent implements OnInit {
 
-  username: string;
-  password: string;
-  submitted: boolean = false;
-  errorMessage: string = "";
-  account: Account;
+  private username: string;
+  private password: string;
+  private submitted: boolean = false;
+  private errorMessage: string = "";
+  private account: Account;
   private globalDataService: GlobalDataService;
 
   constructor(private accountService: AccountsService,
@@ -30,29 +29,28 @@ export class LoginComponent implements OnInit {
     this.globalDataService = GlobalDataService.getGlobalDataService();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  goBack(): void {
+  public goBack(): void {
     this.location.back();
   }
 
-  clearErrorMessage() {
+  public clearErrorMessage() {
     this.errorMessage = '';
   }
 
-  onSubmit() {
+  public onSubmit() {
     this.submitted = true;
     this.checkAccount();
     this.submitted = false;
   }
 
-  moveTo(location: string) {
+  public moveTo(location: string) {
     this.router.navigate([location]);
   }
 
-
-  checkAccount() {
+  private checkAccount() {
     var loginAccount: Account = new Account(this.username, this.password, null);
     console.log('Checking account user: ' + loginAccount.username);
     if ((loginAccount.username == null) || (loginAccount.username.length == 0) ||
@@ -66,17 +64,17 @@ export class LoginComponent implements OnInit {
         },
         err => {
           console.log('getAccounts - error: ', err);
+          this.errorMessage = 'Invalid username: ' + this.username;
+          this.moveTo("/login");
         },
         () => {
           if (this.account) {
-            if (this.account) {
-              if (this.password == loginAccount.password) {
-                console.log("Valid user");
-                this.globalDataService.loggedIn = true;
-                this.globalDataService.username = this.username;
-                this.globalDataService.password = this.password;
-                this.moveTo("/app");
-              }
+            if (this.password == loginAccount.password) {
+              console.log("Valid user");
+              this.globalDataService.loggedIn = true;
+              this.globalDataService.username = this.username;
+              this.globalDataService.password = this.password;
+              this.moveTo("/app");
             }
           }
         }
@@ -84,7 +82,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  getAccount(account: Account) : Observable<Account> {
+  private getAccount(account: Account): Observable<Account> {
     return this.accountService
       .getAccount(account.username);
   }
