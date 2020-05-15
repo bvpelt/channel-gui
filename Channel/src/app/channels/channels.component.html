@@ -1,8 +1,0 @@
-<h2>Channels<span class="add-channel"><a href="/addChannel"><i class="fas fa-plus-square"></i></a></span></h2>
-<div *ngIf="getChannel()">
-  <ul>
-    <li *ngFor="let channel of channel"  (click)="onSelect(channel)" [class.selected]="channel === getSelectedChannel()" >
-      {{channel.name}} <span (click)="removeChannel(channel)" class="remove-channel"><i  class="fas fa-trash-alt"></i></span>
-    </li>
-  </ul>
-</div>
